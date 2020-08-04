@@ -1,0 +1,34 @@
+#
+# check https://config.travis-ci.com
+# for the list of available modules 
+# for the travis YAML build config files
+#
+
+# set linux and osx as the list of
+# build environments
+# https://config.travis-ci.com/ref/os
+# https://docs.travis-ci.com/user/reference/overview/
+os: 
+- linux
+- osx
+
+# set amd64 as the architecture for the build
+# https://config.travis-ci.com/ref/arch
+arch: amd64
+
+# execute the following stages in the
+# order mentioned if the branch name 
+# is ci-build
+stages:
+  - configure
+  - analysis
+  - name: deploy
+    if: branch = ci-build
+
+# definition of the stages
+jobs:
+  include:
+    - stage: configure
+      script: bash scripts/travis-configure.sh
+    - stage: analysis
+      script: bash scripts/travis-analysis.sh
